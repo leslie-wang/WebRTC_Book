@@ -1,15 +1,7 @@
 # CompleteNodeServerWithDataChannel
 
-## Objective
+fork from https://github.com/spromano/WebRTC_Book.git. Add 3 pull request.
 
-
-
-## Usage
-
-
-
-## Developing
-
-
-Created with [Nodeclipse v0.4](https://github.com/Nodeclipse/nodeclipse-1)
- ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))   
+to generate server.key and server.pem, rub below commands:
+ - openssl req -nodes -newkey rsa:2048 -keyout server.key -out server.out
+ - openssl x509 -req -days 365 -in server.out -signkey server.key -out server.crt

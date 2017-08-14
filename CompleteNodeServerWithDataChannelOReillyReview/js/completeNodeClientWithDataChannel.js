@@ -42,11 +42,12 @@ var pc_config = webrtcDetectedBrowser === 'firefox' ?
   {'iceServers':[{'urls':'stun:23.21.150.121'}]} : // IP address
   {'iceServers': [{'urls': 'stun:stun.l.google.com:19302'}]};
 
-// Peer Connection contraints: (i) use DTLS; (ii) use data channel  
+// Peer Connection contraints: (i) use DTLS; (ii) use data channel
 var pc_constraints = {
   'optional': [
-    {'DtlsSrtpKeyAgreement': true},
-    {'RtpDataChannels': true}
+    {'DtlsSrtpKeyAgreement': true}
+		//RTP data channel is deprecated
+    //{'RtpDataChannels': true}
   ]};
 
 // Session Description Protocol constraints:
@@ -55,10 +56,10 @@ var pc_constraints = {
 //  'OfferToReceiveAudio':true,
 //  'OfferToReceiveVideo':true }};
 
-var sdpConstraints = webrtcDetectedBrowser === 'firefox' ? 
+var sdpConstraints = webrtcDetectedBrowser === 'firefox' ?
 		{'offerToReceiveAudio':true,'offerToReceiveVideo':true } :
 		{'mandatory': {'OfferToReceiveAudio':true, 'OfferToReceiveVideo':true }};
-			
+
 
 /////////////////////////////////////////////
 
@@ -142,7 +143,7 @@ socket.on('log', function (array){
   console.log.apply(console, array);
 });
 
-// Receive message from the other peer via the signalling server 
+// Receive message from the other peer via the signalling server
 socket.on('message', function (message){
   console.log('Received message:', message);
   if (message === 'got user media') {
@@ -303,7 +304,7 @@ function onSignalingError(error) {
 // Create Answer
 function doAnswer() {
   console.log('Sending answer to peer.');
-  pc.createAnswer(setLocalAndSendMessage, onSignalingError, sdpConstraints);  
+  pc.createAnswer(setLocalAndSendMessage, onSignalingError, sdpConstraints);
 }
 
 // Success handler for both createOffer()
@@ -346,7 +347,7 @@ function stop() {
   isStarted = false;
   if (sendChannel) sendChannel.close();
   if (receiveChannel) receiveChannel.close();
-  if (pc) pc.close();  
+  if (pc) pc.close();
   pc = null;
   sendButton.disabled=true;
 }
